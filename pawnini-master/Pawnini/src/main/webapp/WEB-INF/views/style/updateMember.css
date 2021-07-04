@@ -1,0 +1,115 @@
+.mypage_form {
+display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   padding: 2rem;
+   margin: 3rem auto;
+}
+.mpform {
+    border: 5px solid #fdcb6e;
+    padding: 50px;
+    width: 70%;
+    margin: 50px auto;
+    font-size: 25px;
+}
+.mpform:hover{
+   	transition:  box-shadow 0.5s ease-in-out ;
+    box-shadow: 6px 6px 2px 2px rgba(0, 0, 0, 0.5);
+}
+.mypage_heading {
+	text-align: center;
+}
+.mypage_field {
+	margin-top: 1rem;
+	border-bottom: 1px solid lightgray;
+	display: flex;
+	font-size: 16px;
+}
+.mypage_field_add {
+	display: flex;
+	font-size: 16px;
+	margin-top: 1rem;
+}
+.mypage_label {
+	width: 11.5rem;
+	padding-left: 2rem;
+	font-weight: bold;
+	font-size: 1.0rem;
+}
+
+
+.mpform input{
+    border:2px solid #fdcb6e;
+    outline: #fd79a8;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    padding-left: .6rem;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    margin-left: 20px;
+}
+
+.mpform input:hover{
+	background-color: #f2f2da;
+}
+.mypage_border span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+opacity: 0.6;
+font-weight: 600;
+padding-top: 20px;
+font-size: 16px;
+
+}
+.button{
+    outline: none;
+    border: 1px solid #fdcb6e ;
+    background-color:#fdcb6e;
+    cursor: pointer;
+    font-size: 20px;
+    color:white;
+    font-weight: 900;
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin: 5px;
+    text-align: center;
+    margin-left: 15px;
+}
+  .button:hover{
+      border: 5px solid #fdcb6e ;
+    background:#fff;
+    color:black
+  }
+  .button:before,button:after{
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: #fdcb6e;
+    transition:400ms ease all;
+  }
+ .button:after{
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
+  }
+  .button:hover:before,button:hover:after{
+    width:100%;
+    transition:800ms ease all;
+  }
+ 
+.btns {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+	text-align: center;
+}
+ 

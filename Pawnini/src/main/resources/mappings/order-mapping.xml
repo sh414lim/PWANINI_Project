@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="OrderDAO">
+
+	<!-- 주문 정보 삽입 -->
+	<insert id="insertOrder" parameterType="order">
+	<![CDATA[
+		 INSERT INTO ORD (ORD_ID, RECIPIENT_NAME, ORD_POSTCODE, ORD_F_ADDR, ORD_S_ADDR, 
+		 ORD_PHONE, ORD_REQ_MSG, ORD_CARD_INFO1, ORD_CARD_INFO2, ORD_USED_MILEAGE, 
+		 ORD_TOTAL, MEMBER_ID)
+			VALUES (
+                #{ord_id},
+                #{recipient_name},
+                #{ord_postcode},
+                #{ord_f_addr},
+                #{ord_s_addr},
+                #{ord_phone},
+                #{ord_req_msg},
+                #{ord_card_info1},
+                #{ord_card_info2},
+                #{ord_used_mileage},
+                #{ord_total},
+                #{member_id}
+                )
+	]]>
+	</insert>
+	
+	<!-- 회원 적립금 잔액 업데이트 -->
+	<update id="updateMileage">
+	<![CDATA[
+		UPDATE MEMBER M
+        SET M.MEMBER_MILEAGE = M.MEMBER_MILEAGE - (SELECT O.ORD_USED_MILEAGE FROM ORD O WHERE O.MEMBER_ID = M.MEMBER_ID AND O.MILEAGE_STATUS=1)
+		WHERE M.MEMBER_ID = #{member_id}
+	]]>
+	</update>
+	
+	<!-- 주문의 적립금 상태 업데이트 (결제 완료 시) 1=회원정보 업데이트 전 2=회원정보 업데이트 후  -->
+	<update id="checkMileageStatus">
+	<![CDATA[
+		UPDATE ORD
+		SET MILEAGE_STATUS=2
+		WHERE ORD_ID = #{ord_id} AND MEMBER_ID = #{member_id}
+	]]>
+	</update>
+
+	<!-- 상세 주문 삽입 -->
+	<insert id="insertOrderDetails">
+	<![CDATA[
+		 INSERT INTO ORD_DETAILS (ORD_D_ID, ORD_ID, PRODUCT_ID, CART_AMOUNT)
+                SELECT ORD_D_SEQ.NEXTVAL, #{ord_id}, PRODUCT_ID, CART_AMOUNT
+                FROM CART
+                WHERE_MEMBER_ID = #{member_id}
+	]]>
+	</insert>
+	
+	<!-- 특정 회원의 주문 목록 -->
+	<select id="getOrderList" resultType="order">
+		SELECT *
+		FROM ORD
+		WHERE MEMBER_ID = #{member_id}
+		ORDER BY ORD_DATE DESC
+	</select>
+	
+	<!-- 상세 주문 보기 -->
+	<select id="getOrderDetails" resultType="orderList">
+		SELECT O.ORD_ID, O.MEMBER_ID, O.RECIPIENT_NAME, O.ORD_POSTCODE, O.ORD_F_ADDR, O.ORD_S_ADDR, O.ORD_REQ_MSG,
+				O.ORD_PHONE, O.ORD_DATE, O.ORD_TOTAL, O.ORD_STATUS, O.ORD_CARD_INFO1, O.ORD_USED_MILEAGE,
+                D.ORD_D_ID, D.PRODUCT_ID, D.CART_AMOUNT, 
+                P.PRODUCT_NAME, P.PRODUCT_THUMB_IMG, P.PRODUCT_PRICE
+		FROM ORD O
+            INNER JOIN ORD_DETAILS D ON O.ORD_ID = D.ORD_ID
+            INNER JOIN PRODUCT P ON P.PRODUCT_ID = D.PRODUCT_ID
+		WHERE O.MEMBER_ID = #{member_id} AND O.ORD_ID = #{ord_id}
+	</select>
+	
+	<!-- 관리자:전체 주문 불러오기 -->
+	<select id="getAllOrders" resultType="order">
+		SELECT DISTINCT O.ORD_ID, O.ORD_DATE, O.ORD_TOTAL, O.ORD_STATUS
+		FROM ORD O INNER JOIN ORD_DETAILS D ON O.ORD_ID = D.ORD_ID
+		ORDER BY O.ORD_DATE DESC
+	</select>
+	
+	<!-- 관리자:상세 주문 불러오기 -->
+	<select id="getAllOrderDetails" resultType="orderList">
+		SELECT O.ORD_ID, O.MEMBER_ID, O.RECIPIENT_NAME, O.ORD_POSTCODE, O.ORD_F_ADDR, O.ORD_S_ADDR, O.ORD_REQ_MSG,
+				O.ORD_PHONE, O.ORD_DATE, O.ORD_TOTAL, O.ORD_STATUS, O.ORD_CARD_INFO1, O.ORD_USED_MILEAGE,
+                D.ORD_D_ID, D.PRODUCT_ID, D.CART_AMOUNT, 
+                P.PRODUCT_NAME, P.PRODUCT_THUMB_IMG, P.PRODUCT_PRICE
+		FROM ORD O
+            INNER JOIN ORD_DETAILS D ON O.ORD_ID = D.ORD_ID
+            INNER JOIN PRODUCT P ON P.PRODUCT_ID = D.PRODUCT_ID
+		WHERE O.ORD_ID = #{ord_id}
+	</select>
+	
+	<!-- 관리자: 상세 주문 배송현황 업데이트 -->
+	<update id="updateOrdStatus">
+	<![CDATA[
+		UPDATE ORD
+		   SET ORD_STATUS = #{ord_status}
+		WHERE ORD_ID = #{ord_id}
+	]]>
+	</update>
+	
+	<!-- 관리자/상품: 배송현황 업데이트(배송 중 이후) 시 해당 상품 재고 차감  -->
+	<update id="updateStock">
+	<![CDATA[
+		UPDATE PRODUCT
+		   SET PRODUCT_STOCK = PRODUCT_STOCK - #{product_stock}
+		 WHERE PRODUCT_ID = #{product_id}
+	]]>
+	</update>
+	
+	<!-- 주문 삭제 -->
+	<delete id="deleteOrder">
+	<![CDATA[
+		DELETE ORD
+		WHERE ORD_ID = #{ord_id} AND ORD_STATUS = '배송 준비 중'
+	]]>
+	</delete>
+
+	<!-- 주문 취소 시 사용한 적립금 환불 -->
+	<update id="refundMileage">
+	<![CDATA[
+		UPDATE (SELECT M.MEMBER_MILEAGE AS MILEAGE1 , O.ORD_USED_MILEAGE AS MILEAGE2, O.MILEAGE_STATUS 
+			FROM MEMBER M INNER JOIN ORD O ON M.MEMBER_ID = O.MEMBER_ID 
+			WHERE O.MEMBER_ID=#{member_id} AND O.ORD_ID=#{ord_id} AND O.MILEAGE_STATUS=2) T
+		SET T.MILEAGE1 = T.MILEAGE1 + T.MILEAGE2
+	]]>
+	</update>
+	
+	<!-- 카트 추가 -->
+	<insert id="addToCart" parameterType="cart">
+	<![CDATA[
+		 INSERT INTO CART(CART_ID, CART_AMOUNT, PRODUCT_ID, MEMBER_ID)  
+		 VALUES(
+		 		CONCAT(TO_NUMBER(TO_CHAR(SYSDATE, 'YYMMDD')), LPAD(CART_SEQ.NEXTVAL, 2, 0)),
+		 		#{cart_amount},
+		 		#{product_id},
+		 		#{member_id}
+		 		)
+	]]>
+	</insert>
+	
+	<!-- 카트 목록 -->
+	<select id="getCartList" resultType="cart">
+		SELECT C.CART_ID, C.MEMBER_ID, P.PRODUCT_ID, M.MEMBER_ID, P.PRODUCT_NAME, P.PRODUCT_THUMB_IMG, C.CART_AMOUNT, P.PRODUCT_PRICE,
+                (PRODUCT_PRICE * CART_AMOUNT) CART_TOTAL, M.MEMBER_MILEAGE
+		FROM MEMBER M, PRODUCT P, CART C
+		WHERE M.MEMBER_ID = C.MEMBER_ID AND P.PRODUCT_ID = C.PRODUCT_ID AND C.MEMBER_ID = #{member_id}
+		ORDER BY C.CART_ID
+	</select>
+	
+	<!-- 카트 목록 삭제 -->
+	<delete id="deleteCartByMember">
+	<![CDATA[
+		DELETE CART
+		WHERE MEMBER_ID = #{member_id}
+	]]>
+	</delete>
+	
+	<!-- 카트 ID 삭제 -->
+	<delete id="deleteCartId">
+	<![CDATA[
+		DELETE CART
+		WHERE CART_ID = #{cart_id}
+	]]>
+	</delete>
+	
+	<!-- 카트 최종 주문 금액 구하기 -->
+	<select id="getSum" resultType="int">
+		SELECT NVL(SUM(PRODUCT_PRICE * CART_AMOUNT), 0) CART_TOTAL
+		FROM CART C, PRODUCT P
+		WHERE C.PRODUCT_ID = P.PRODUCT_ID AND C.MEMBER_ID = #{member_id}
+	</select>
+	
+	<!-- 카트 제품 수량 수정 -->
+	<update id="modifyCart" parameterType="cart">
+	<![CDATA[
+		UPDATE CART
+        SET CART_AMOUNT = #{cart_amount}
+    	WHERE MEMBER_ID = #{member_id} AND PRODUCT_ID = #{product_id}
+    ]]>
+   	</update>
+   	
+   	<!-- 카트 내 중복 제품 체크  -->
+   	<select id="countCart" resultType="int">
+   		SELECT COUNT(*) 
+   		FROM CART 
+   		WHERE MEMBER_ID = #{member_id} AND PRODUCT_ID = #{product_id}
+   	</select>
+   	
+   	<!-- 카트 내 중복 제품이 있을 경우 해당 수량 합치기 -->
+   	<update id="checkOverlap">
+   	<![CDATA[
+   		UPDATE CART
+        SET CART_AMOUNT = CART_AMOUNT + #{cart_amount}
+    	WHERE MEMBER_ID = #{member_id} AND PRODUCT_ID = #{product_id}
+   	]]>
+   	</update>
+   	
+   	<!-- 현재 마일리지 가져오기  -->
+   <select id="getCurrentMileage" resultType="int">
+      SELECT MEMBER_MILEAGE
+      FROM MEMBER
+      WHERE MEMBER_ID = #{member_id}
+   </select>
+   
+   <select id="getMyPageInfo" resultType="order">
+   	SELECT COUNT(*) AS ORD_NUM, 
+   			SUM(ORD_USED_MILEAGE) AS ORD_USED_MILEAGE2, 
+   			SUM(ORD_TOTAL) AS ORD_TOTAL2 
+   	FROM ORD 
+   	WHERE MEMBER_ID = #{member_id}
+   </select>
+   
+   <select id="getTotalSales" resultType="order">
+   	SELECT SUM(ORD_TOTAL) AS ORD_SALES, COUNT(ORD_ID) AS ORD_CNT 
+   	FROM ORD
+   </select>
+   
+   
+</mapper>

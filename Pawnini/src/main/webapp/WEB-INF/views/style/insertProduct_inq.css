@@ -1,0 +1,68 @@
+@charset "UTF-8";
+
+.title {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    padding: 5px 0px 5px 0px;
+    background-color:rgba(253, 203, 110,0.5 );
+
+}
+.insertForm span {
+    font-weight: bold;
+
+}
+.insertForm {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
+
+}
+.button{
+    display:flex;
+    justify-content:center;
+    margin-top: 10px;
+    margin-left: 50%;
+    
+}
+
+
+.writer{
+    border-bottom:1px solid;
+    padding:5px 0px 5px 0px;
+    background-color:rgba(253, 203, 110,0.5 );
+}
+
+.content{
+    border-bottom:1px solid;
+    padding:5px 0px 30px 0px;
+    background-color:rgba(253, 203, 110,0.5 );
+}
+
+textarea#notice_content{
+    padding:5px;
+    margin-left:5px;
+    margin-top:15px;
+}
+
+.insertForm form {
+    width:900px;
+}
+
+.btn{
+    padding:10px 0px 10px 0px;
+    margin-left:750px;
+}
+
+.ck ck-editor {
+	max-width: 500px;
+}
+
+.ck ck-editor_deitable {
+	min-height: 500px;
+}
+
+
+p{
+     word-break:break-all;
+}

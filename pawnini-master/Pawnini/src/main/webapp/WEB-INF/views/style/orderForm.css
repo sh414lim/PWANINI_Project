@@ -1,0 +1,80 @@
+@charset "UTF-8";
+.orderInfo {
+	border: 5px solid #eee;
+	padding: 30px;
+	margin-bottom: 50px;
+}
+
+.orderInfo .inputArea {
+	margin: 10px 0;
+}
+
+.orderInfo .inputArea label {
+	display: inline-block;
+	width: 120px;
+	margin-right: 10px;
+}
+
+.orderInfo .inputArea input {
+	font-size: 14px;
+	padding: 5px;
+}
+
+#userAddr2, #userAddr3 {
+	width: 250px;
+}
+
+.orderInfo .inputArea:last-child {
+	margin-top: 30px;
+}
+
+.orderInfo .inputArea button {
+	font-size: 20px;
+	border: none;
+	/* padding: 5px 10px; */
+	background: #fff;
+	margin-right: 15px;
+}
+.table{
+	margin-top: 50px;
+	width:55%;
+
+}
+.table tr{
+	border:1px solid black
+	
+}
+
+.table th{
+	padding:15px;
+	background-color:rgba(0,0,0,0.1);
+	border-radius:3px;
+
+}
+.order_form{
+	width:76%;
+	margin-left:240px;
+}
+
+
+
+.product{
+	border-bottom:1px solid red;
+}
+
+.product td{
+    padding:25px;
+    	border-bottom: 3px solid rgba(0,0,0,0.2);
+    	padding-bottom:40px;
+}
+
+button{
+	border:none;
+	outline:none;
+	font-size:18px;
+	font-weight: 600;
+	cursor:pointer;
+}
+button:hover{
+		opacity: 0.7;
+}

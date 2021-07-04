@@ -1,0 +1,9 @@
+사용기술
+Front-end:
+Ajax/jquery/html 5/css/js/jsp/bootstrap4/fontawesome/sweetalert/chrome/
+Back-end:
+Apache tomcat 9 /mybatis/maven/spring mvc/java8/oracle/jdbc/
+Tools:
+-github/git/eclipse/oracle sql developer/erd-cloud
+APIs:
+-daum postcode/gmail/ckeditor

@@ -1,0 +1,141 @@
+.insert_product {
+	display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;'
+   margin: 3rem auto;	
+}
+
+.insProd_form{
+    border: 5px solid #fdcb6e;
+    padding: 50px;
+    width: 50%;
+    margin: 65px auto;
+    font-size: 25px;
+}
+.insProd_form:hover{
+    transition:  box-shadow 0.5s ease-in-out ;
+    box-shadow: 6px 6px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+.insProd_label {
+	width: 12rem;
+	padding-left: 2rem;	
+	font-weight: bold;
+	font-size: 1.2rem;
+}
+
+.insProd_heading{
+	font-size: 23px;
+	text-align: center;
+}
+
+.insProd_field{
+	margin: 1rem 0;
+	display: flex;
+	border-bottom:1px solid lightgray;
+	font-size: 16px;
+	font-weight: bold;
+}
+.insProd_field_noborder {
+	margin: 1rem 0;
+	display: flex;
+	font-size: 16px;
+	font-weight: bold;
+}
+.insProd_form input{
+    border:2px solid #fdcb6e ;
+    outline: #fd79a8;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    padding-left: 1rem;
+    margin-left: 20px;
+
+
+}
+input:hover{
+  
+}
+
+.insProd_form .option{
+    border: 3px solid #fdcb6e ;
+    outline: none;
+    border-radius: 10px;
+    padding-left: 1rem;
+    margin-bottom: 1rem;     
+    margin-left: 20px;
+    width: 6rem;
+}
+.product_desc{
+    border:3px solid #fdcb6e ;
+	border-radius: 1rem;
+    outline: none;
+    padding: 1rem;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+.select_img{
+	padding-left: 1rem;     
+    margin-left: 20px;      
+     margin-bottom: 1rem;   
+}
+
+img:hover{
+    transition: box-shadow 0.5s ease-in-out ;
+    opacity: 0.7;
+    box-shadow: 6px 6px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+.btns {
+	display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+	text-align: center;
+}
+
+.button{
+	margin-top: 50px;
+    background:#fdcb6e;
+    color:white;
+    font-weight: 600;
+    border:none;
+    position:relative;
+    height:60px;
+    width: 6rem;
+    padding: 1rem;
+    font-size:1.6em;
+    cursor:pointer;
+    transition:800ms ease all;
+    outline:none;
+    font-size: 20px;
+  }
+  .button:hover{
+      border: 5px solid #fdcb6e ;
+    background:#fff;
+    color:black
+  }
+  .button:before,button:after{
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: #fdcb6e;
+    transition:400ms ease all;
+  }
+ .button:after{
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
+  }
+  .button:hover:before,button:hover:after{
+    width:100%;
+    transition:800ms ease all;
+  }
+ 

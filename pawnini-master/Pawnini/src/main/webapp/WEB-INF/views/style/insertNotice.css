@@ -1,0 +1,86 @@
+@charset "UTF-8";
+
+.title {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    padding: 5px 0px 5px 0px;
+    background-color:rgba(253, 203, 110,0.5 );
+
+}
+.insertForm span {
+    font-weight: bold;
+
+}
+.insertForm {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
+
+}
+.button{
+    display:flex;
+    justify-content:center;
+    margin-top: 10px;
+    margin-left: 50%;
+    
+}
+
+.writer{
+    border-bottom:1px solid;
+    padding:5px 0px 5px 0px;
+    background-color:rgba(253, 203, 110,0.5 );
+}
+
+.content{
+    border-bottom:1px solid;
+    padding:5px 0px 30px 0px;
+    background-color:rgba(253, 203, 110,0.5 );
+}
+
+textarea#notice_content{
+    padding:5px;
+    margin-left:5px;
+    margin-top:15px;
+}
+
+.insertForm form {
+    width:900px;
+}
+
+.btn{
+    padding:10px 0px 10px 0px;
+    margin-left:750px;
+}
+
+.ck ck-editor {
+	max-width: 500px;
+}
+
+.ck ck-editor_deitable {
+	min-height: 500px;
+}
+
+.btnList{ 
+    padding:1rem 0;
+	display: flex;
+	justify-content: center;
+}
+.btn-default{
+    outline: none;
+    border: 1px solid #fdcb6e ;
+    background-color:#fdcb6e;
+    cursor: pointer;
+    font-size: 20px;
+    color:white;
+    font-weight: 900;
+    border-radius: 15px;
+    margin: 5px;
+    margin-left: 15px;
+}
+
+label{
+	width:4.5rem;
+	padding-left:12px;
+	display:inline-block;
+}
